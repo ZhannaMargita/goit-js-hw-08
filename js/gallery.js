@@ -82,18 +82,22 @@ images.forEach(({ preview, original, description }) => {
   link.appendChild(img);
   galleryItem.appendChild(link);
   galleryList.appendChild(galleryItem);
+});
 
-  link.addEventListener('click', event => {
-    event.preventDefault();
-    if (event.target.nodeName !== 'IMG') {
-      return;
-    }
+galleryList.addEventListener('click', event => {
+  event.preventDefault();
 
-    const instance = basicLightbox.create(`
-      <img src="${original}" alt="${description}" />
-    `);
-    instance.show();
-  });
+  if (event.target.nodeName !== 'IMG') {
+    return;
+  }
+
+  const original = event.target.closest('a').href;
+  const description = event.target.alt;
+
+  const instance = basicLightbox.create(`
+    <img src="${original}" alt="${description}" />
+  `);
+  instance.show();
 });
 
 console.log(galleryList);
